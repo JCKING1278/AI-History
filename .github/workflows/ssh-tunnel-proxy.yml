@@ -22,10 +22,32 @@ concurrency:
 jobs:
   setup-ssh-tunnel:
     runs-on: ubuntu-latest
+    env:
+      LOCAL_HTTP_PORT: "8080"
+      TUNNEL_PORT: "8443"
     
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install and start SSH server
+        run: |
+          set -euo pipefail
+          sudo apt-get update -y
+          sudo apt-get install -y openssh-server
+          sudo ssh-keygen -A
+          sudo mkdir -p /run/sshd
+
+          # Ensure localhost pubkey auth works and forwarding is allowed
+          sudo tee /etc/ssh/sshd_config.d/gh-actions-tunnel.conf > /dev/null <<'EOF'
+          PubkeyAuthentication yes
+          PasswordAuthentication no
+          PermitRootLogin no
+          AllowTcpForwarding yes
+          GatewayPorts no
+          EOF
+
+          sudo service ssh restart || sudo service ssh start || sudo /usr/sbin/sshd
 
       - name: Check IPv6 Support
         run: |
@@ -47,31 +69,36 @@ jobs:
           ssh-keygen -t ed25519 -f ~/.ssh/tunnel_key -N "" -C "github-actions-ssh-tunnel"
           chmod 600 ~/.ssh/tunnel_key
           chmod 644 ~/.ssh/tunnel_key.pub
+
+          # Authorize the key for localhost SSH
+          touch ~/.ssh/authorized_keys
+          chmod 600 ~/.ssh/authorized_keys
+          cat ~/.ssh/tunnel_key.pub >> ~/.ssh/authorized_keys
           
           echo "SSH tunnel key generated successfully"
           echo "Public key fingerprint:"
           ssh-keygen -l -f ~/.ssh/tunnel_key.pub
 
-      - name: Setup SSH Tunnel (Port 443 → 80)
+      - name: Setup SSH Tunnel (Port 8443 → 8080)
         run: |
           echo "=== Starting SSH Tunnel ==="
           
           # Create a background SSH tunnel
-          # This establishes a reverse tunnel: remote port 443 → localhost:80
-          ssh-keyscan -t rsa localhost >> ~/.ssh/known_hosts 2>/dev/null || true
+          # This establishes a reverse tunnel: remote port 8443 → localhost:8080
           
           # Start SSH tunnel in the background
           # Using IPv6 localhost address and dual-stack support
           nohup ssh -N \
             -i ~/.ssh/tunnel_key \
-            -R [::1]:443:127.0.0.1:80 \
-            -R 443:127.0.0.1:80 \
+            -o IdentitiesOnly=yes \
+            -R [::1]:${TUNNEL_PORT}:127.0.0.1:${LOCAL_HTTP_PORT} \
+            -R ${TUNNEL_PORT}:127.0.0.1:${LOCAL_HTTP_PORT} \
             -o StrictHostKeyChecking=no \
             -o UserKnownHostsFile=/dev/null \
             -o ExitOnForwardFailure=yes \
             -o ConnectTimeout=30 \
             -v \
-            localhost 2>&1 | tee tunnel.log &
+            "$(whoami)@localhost" > tunnel.log 2>&1 &
           
           TUNNEL_PID=$!
           echo "SSH Tunnel PID: $TUNNEL_PID"
@@ -91,16 +118,13 @@ jobs:
 
       - name: Setup Local Proxy Server
         run: |
-          echo "=== Setting up proxy server on ports 80 and 443 ==="
+          echo "=== Setting up proxy server on port ${LOCAL_HTTP_PORT} ==="
           
           # Create a simple proxy server script
           cat > proxy_server.py << 'EOF'
           #!/usr/bin/env python3
-          import socket
-          import threading
           import sys
           from http.server import HTTPServer, BaseHTTPRequestHandler
-          import ssl
           
           class ProxyHandler(BaseHTTPRequestHandler):
               def do_GET(self):
@@ -115,53 +139,18 @@ jobs:
               def log_message(self, format, *args):
                   print(f"[PROXY] {format % args}", file=sys.stderr)
           
-          def run_http_server():
-              # IPv4 and IPv6 support
-              server = HTTPServer(('0.0.0.0', 80), ProxyHandler)
-              print("HTTP Proxy listening on port 80...")
+          def main():
+              port = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
+              server = HTTPServer(("127.0.0.1", port), ProxyHandler)
+              print(f"HTTP Proxy listening on port {port}...")
               server.serve_forever()
-          
-          def run_https_server():
-              # Create self-signed certificate for testing
-              import subprocess
-              cert_dir = '/tmp/certs'
-              subprocess.run(['mkdir', '-p', cert_dir], check=True)
-              
-              # Generate self-signed certificate
-              subprocess.run([
-                  'openssl', 'req', '-x509', '-newkey', 'rsa:2048',
-                  '-keyout', f'{cert_dir}/key.pem',
-                  '-out', f'{cert_dir}/cert.pem',
-                  '-days', '1', '-nodes',
-                  '-subj', '/C=US/ST=CA/L=PaloAlto/O=GitHubActions/CN=localhost'
-              ], check=True, capture_output=True)
-              
-              server = HTTPServer(('0.0.0.0', 443), ProxyHandler)
-              server.socket = ssl.wrap_socket(
-                  server.socket,
-                  certfile=f'{cert_dir}/cert.pem',
-                  keyfile=f'{cert_dir}/key.pem',
-                  server_side=True
-              )
-              print("HTTPS Proxy listening on port 443...")
-              server.serve_forever()
-          
-          # Run servers in separate threads
-          http_thread = threading.Thread(target=run_http_server, daemon=True)
-          https_thread = threading.Thread(target=run_https_server, daemon=True)
-          
-          http_thread.start()
-          https_thread.start()
-          
-          print("Proxy servers started. Press Ctrl+C to stop.")
-          try:
-              http_thread.join()
-          except KeyboardInterrupt:
-              print("Proxy servers stopped.")
+
+          if __name__ == "__main__":
+              main()
           EOF
           
           chmod +x proxy_server.py
-          python3 proxy_server.py > proxy.log 2>&1 &
+          python3 proxy_server.py "${LOCAL_HTTP_PORT}" > proxy.log 2>&1 &
           PROXY_PID=$!
           echo "Proxy server PID: $PROXY_PID"
           echo $PROXY_PID > proxy.pid
@@ -187,23 +176,23 @@ jobs:
           
           # Test local connectivity
           echo ""
-          echo "=== Testing HTTP Proxy on Port 80 ==="
-          timeout 5 curl -v http://localhost:80/ 2>&1 | head -20 || echo "HTTP test timeout or failed"
-          
+          echo "=== Testing HTTP Proxy Direct (${LOCAL_HTTP_PORT}) ==="
+          timeout 5 curl -v "http://127.0.0.1:${LOCAL_HTTP_PORT}/" 2>&1 | head -20 || echo "HTTP direct test timeout or failed"
+
           echo ""
-          echo "=== Testing HTTPS Proxy on Port 443 ==="
-          timeout 5 curl -v -k https://localhost:443/ 2>&1 | head -20 || echo "HTTPS test timeout or failed"
+          echo "=== Testing HTTP via SSH Reverse Tunnel (${TUNNEL_PORT} -> ${LOCAL_HTTP_PORT}) ==="
+          timeout 5 curl -v "http://127.0.0.1:${TUNNEL_PORT}/" 2>&1 | head -20 || echo "HTTP tunnel test timeout or failed"
           
           # Test IPv6
           echo ""
-          echo "=== Testing IPv6 Localhost ==="
-          timeout 5 curl -v -6 http://\[::1\]:80/ 2>&1 | head -20 || echo "IPv6 test timeout or failed"
+          echo "=== Testing IPv6 Localhost (Tunnel Port) ==="
+          timeout 5 curl -v -6 "http://[::1]:${TUNNEL_PORT}/" 2>&1 | head -20 || echo "IPv6 test timeout or failed"
 
       - name: Display Network Diagnostics
         if: always()
         run: |
           echo "=== Active Connections ==="
-          netstat -tulpn 2>/dev/null | grep -E "(80|443)" || ss -tulpn 2>/dev/null | grep -E "(80|443)" || echo "No active connections on ports 80/443"
+          netstat -tulpn 2>/dev/null | grep -E "(8080|8443)" || ss -tulpn 2>/dev/null | grep -E "(8080|8443)" || echo "No active connections on ports 8080/8443"
           
           echo ""
           echo "=== SSH Tunnel Log ==="
