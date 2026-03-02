@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Premium Membership - AI History & Money Making</title>
   <meta name="description" content="Unlock exclusive AI research reports, consulting, and resources. Join Premium today!">
-  <link rel="stylesheet" href="../../assets/css/main.css">
-  <link rel="stylesheet" href="../../assets/css/responsive.css">
-  <link rel="stylesheet" href="../../assets/css/theme.css">
+  <link rel="stylesheet" href="../../assets/css/dark-theme.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
   <style>
     .premium-hero {
@@ -69,19 +70,34 @@
     }
   </style>
 </head>
-<body>
+<body data-theme="dark">
   <header>
-    <div class="container">
-      <nav>
-        <a href="../../index.html" class="logo">AI History</a>
-        <ul>
-          <li><a href="../../index.html">Home</a></li>
-          <li><a href="../timeline/1950s-1970s.html">Timeline</a></li>
-          <li><a href="../pioneers/alan-turing.html">Pioneers</a></li>
-          <li><a href="premium.html">Premium</a></li>
-        </ul>
-      </nav>
-    </div>
+    <nav>
+      <a href="../../index.html" class="nav-brand">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7h1a1 1 0 011 1v3a1 1 0 01-1 1h-1v1a2 2 0 01-2 2H5a2 2 0 01-2-2v-1H2a1 1 0 01-1-1v-3a1 1 0 011-1h1a7 7 0 017-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2zM7.5 13A2.5 2.5 0 005 15.5 2.5 2.5 0 007.5 18a2.5 2.5 0 002.5-2.5A2.5 2.5 0 007.5 13zm9 0a2.5 2.5 0 00-2.5 2.5 2.5 2.5 0 002.5 2.5 2.5 2.5 0 002.5-2.5 2.5 2.5 0 00-2.5-2.5z"/>
+        </svg>
+        AI Hub
+      </a>
+      <ul class="nav-links">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../ai-history.html">AI History</a></li>
+        <li><a href="../../money.html">Money</a></li>
+        <li><a href="../../tools.html">Tools</a></li>
+        <li><a href="../../investing.html">Investing</a></li>
+        <li><a href="premium.html" class="nav-premium" style="background: linear-gradient(135deg, var(--amber-glow) 0%, var(--amber-dark) 100%); color: var(--brown-dark) !important; font-weight: 700; padding: 8px 16px; border-radius: 6px; text-transform: uppercase;">Premium</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+        </svg>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
   </header>
 
   <div class="premium-hero">

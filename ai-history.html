@@ -38,6 +38,7 @@
         <li><a href="money.html">Money</a></li>
         <li><a href="tools.html">Tools</a></li>
         <li><a href="investing.html">Investing</a></li>
+        <li><a href="pages/premium/premium.html" class="nav-premium">Premium</a></li>
       </ul>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
         <svg viewBox="0 0 24 24" fill="currentColor">
@@ -72,7 +73,7 @@
         
         <div class="card-grid ai-timeline">
           <div class="card">
-            <span class="timeline-date">1950s-1970s</span>
+            <span class="timeline-date retro-title">1950s-1970s</span>
             <h3>The Foundation Era</h3>
             <p><strong>1950:</strong> Alan Turing publishes "Computing Machinery and Intelligence," introducing the Turing Test.</p>
             <p><strong>1956:</strong> John McCarthy coins the term "Artificial Intelligence" at Dartmouth Conference.</p>
@@ -82,22 +83,51 @@
           </div>
           
           <div class="card">
-            <span class="timeline-date">1980s-1990s</span>
-            <h3>Expert Systems Era</h3>
-            <p><strong>1980:</strong> Expert systems become popular in business and industry.</p>
-            <p><strong>1986:</strong> Geoffrey Hinton and colleagues popularize backpropagation.</p>
-            <p><strong>1989:</strong> Yann LeCun develops convolutional neural networks for handwritten digit recognition.</p>
-            <p><strong>1997:</strong> IBM's Deep Blue defeats Garry Kasparov in chess.</p>
-            <p><strong>1997:</strong> LSTM (Long Short-Term Memory) networks are introduced by Hochreiter and Schmidhuber.</p>
+            <span class="timeline-date retro-title">1960s-1970s</span>
+            <h3>First Computing Revolution</h3>
+            <p><strong>1964:</strong> IBM System/360 revolutionizes computing with time-sharing.</p>
+            <p><strong>1969:</strong> ARPANET - Internet's birth connects 4 universities.</p>
+            <p><strong>1972:</strong> MYCIN - First expert system for medical diagnosis (69% accuracy).</p>
+            <p><strong>1977:</strong> Apple II, Commodore PET bring computing to homes.</p>
           </div>
           
           <div class="card">
+            <span class="timeline-date retro-title">1980s</span>
+            <h3>Microprocessor Age</h3>
+            <p><strong>1981:</strong> IBM PC Revolution - establishes personal computer standard.</p>
+            <p><strong>1986:</strong> Backpropagation popularized by Geoffrey Hinton.</p>
+            <p><strong>1989:</strong> Yann LeCun develops CNNs for handwritten digit recognition.</p>
+            <p><strong>1990s:</strong> Internet boom enables distributed AI computing.</p>
+          </div>
+          
+          <div class="card">
+            <span class="timeline-date retro-title">1990s</span>
+            <h3>Expert Systems Era</h3>
+            <p><strong>1990:</strong> Tim Berners-Lee creates the World Wide Web.</p>
+            <p><strong>1997:</strong> IBM's Deep Blue defeats Garry Kasparov in chess.</p>
+            <p><strong>1997:</strong> LSTM (Long Short-Term Memory) networks introduced by Hochreiter and Schmidhuber.</p>
+            <p><strong>1999:</strong> NVIDIA introduces GeForce 256 - GPU computing begins.</p>
+          </div>
+          
+<div class="card">
             <span class="timeline-date">2000s-2010s</span>
             <h3>Deep Learning Revolution</h3>
-            <p><strong>2012:</strong> AlexNet wins ImageNet competition, sparking deep learning revolution.</p>
-            <p><strong>2014:</strong> GANs (Generative Adversarial Networks) introduced by Ian Goodfellow.</p>
-            <p><strong>2015:</strong> AlphaGo defeats world champion Lee Sedol in Go.</p>
-            <p><strong>2016:</strong> Google DeepMind's AlphaFold begins solving protein folding.</p>
+            <p><strong>2012:</strong> AlexNet wins ImageNet competition (85% accuracy), sparking deep learning revolution.</p>
+            <p><strong>2014:</strong> GANs (Generative Adversarial Networks) introduced by Ian Goodfellow for AI art.</p>
+            <p><strong>2016:</strong> AlphaGo defeats world champion Lee Sedol in Go - AI shows intuition.</p>
+            <p><strong>2017:</strong> Google releases "Attention Is All You Need" - Transformers change everything.</p>
+            <p><strong>2018:</strong> BERT revolutionizes NLP - machines understand context.</p>
+          </div>
+          
+          <div class="card">
+            <span class="timeline-date retro-title">2020s-2026</span>
+            <h3>LLM & Generative AI Era</h3>
+            <p><strong>2020:</strong> GPT-3 released - 175B parameters, shows emergent abilities.</p>
+            <p><strong>2022:</strong> ChatGPT launches - AI goes mainstream (100M users in 2 months).</p>
+            <p><strong>2023:</strong> GPT-4, Claude, Llama 2 - multimodal AI becomes accessible.</p>
+            <p><strong>2024:</strong> GPT-4o, Claude 3 - native multimodal, reasoning improvements.</p>
+            <p><strong>2025-26:</strong> Agentic AI, OpenAI o1, Claude 3.5 - AI takes actions.</p>
+          </div>
             <p><strong>2017:</strong> Transformer architecture introduced, enabling modern LLMs.</p>
           </div>
           
@@ -267,6 +297,47 @@
           <div class="card">
             <h3>Reinforcement Learning</h3>
             <p>AI that learns through trial and error with rewards. Powers game-playing AI and robotics.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dive Deeper Section -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="retro-title">📖 Dive Deeper</h2>
+          <p>Explore detailed pages on AI pioneers and historical eras</p>
+        </div>
+        
+        <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+          <div class="card" style="border-left: 4px solid var(--accent-ai);">
+            <h3>AI Pioneers</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li style="margin-bottom: 0.5rem;"><a href="pages/pioneers/alan-turing.html" style="color: var(--accent-ai);">▸ Alan Turing</a></li>
+              <li style="margin-bottom: 0.5rem;"><a href="pages/pioneers/geoffrey-hinton.html" style="color: var(--accent-ai);">▸ Geoffrey Hinton</a></li>
+              <li style="margin-bottom: 0.5rem;"><a href="pages/pioneers/yann-lecun.html" style="color: var(--accent-ai);">▸ Yann LeCun</a></li>
+              <li style="margin-bottom: 0.5rem;"><a href="pages/pioneers/fei-fei-li.html" style="color: var(--accent-ai);">▸ Fei-Fei Li</a></li>
+            </ul>
+          </div>
+          
+          <div class="card" style="border-left: 4px solid var(--amber-glow);">
+            <h3>Historical Timeline</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li style="margin-bottom: 0.5rem;"><a href="pages/timeline/1950s-1970s.html" style="color: var(--amber-glow);">▸ 1950s-1970s</a></li>
+              <li style="margin-bottom: 0.5rem;"><a href="pages/timeline/1980s-1990s.html" style="color: var(--amber-glow);">▸ 1980s-1990s</a></li>
+              <li style="margin-bottom: 0.5rem;"><a href="pages/timeline/2000s-2010s.html" style="color: var(--amber-glow);">▸ 2000s-2010s</a></li>
+              <li style="margin-bottom: 0.5rem;"><a href="pages/timeline/2020s-present.html" style="color: var(--amber-glow);">▸ 2020s-Present</a></li>
+            </ul>
+          </div>
+          
+          <div class="card" style="border-left: 4px solid var(--accent-money);">
+            <h3>Resources</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li style="margin-bottom: 0.5rem;"><a href="pages/resources/" style="color: var(--accent-money);">▸ Learning Resources</a></li>
+              <li style="margin-bottom: 0.5rem;"><a href="pages/case-studies/" style="color: var(--accent-money);">▸ Case Studies</a></li>
+              <li style="margin-bottom: 0.5rem;"><a href="pages/premium/premium.html" style="color: var(--amber-glow);">▸ Premium Content</a></li>
+            </ul>
           </div>
         </div>
       </div>
