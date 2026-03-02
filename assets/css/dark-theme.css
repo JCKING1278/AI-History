@@ -757,6 +757,22 @@ footer {
   border-top: 1px solid var(--border-subtle);
 }
 
+.footer-copy::after {
+<<<<<<< Current (Your changes)
+  content: "Built with love in Palo Alto.";
+  display: block;
+<<<<<<< Current (Your changes)
+  margin-top: var(--space-xs);
+=======
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+  opacity: 0.9;
+>>>>>>> Incoming (Background Agent changes)
+=======
+  content: " • Built with love in Palo Alto";
+>>>>>>> Incoming (Background Agent changes)
+}
+
 /* ============================================
    UTILITIES
    ============================================ */
