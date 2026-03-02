@@ -42,13 +42,12 @@ def emit_cpp_server_project(
     )
 
     replacement_map = {
-        "PROJECT_NAME__": "generated_lsp_server",
-        "SERVER_NAME__": f"LSP Generator ({selected_extension})",
-        "EXTENSION_": selected_extension,
-        "_STRATEGY__": strategy,
-        "_COMPLETION_JSON": _as_cpp_string_list(completion_words),
-        "ANALYSIS.json": json.dumps(analysis, indent=2),
-        "RAG\/CONTEXT/\'`": context_blob,
+        "__PROJECT_NAME\`: "generated_lsp_server",
+        "__SERVER_NAME\`: f"LSP Generator ({selected_extension})",
+        "__EXTENSION\`: selected_extension,
+        "__STRATEGY\`: strategy,
+        "__COMPLETION_JSON\`: _as_cpp_string_list(completion_words),
+        "__RAG_CONTEXT\`: context_blob,
     }
 
     for key, value in replacement_map.items():

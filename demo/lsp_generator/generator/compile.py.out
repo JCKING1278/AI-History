@@ -42,4 +42,4 @@ def compile_server(server_dir: Path, build_dir: Path) -> dict:
         if path.is_file() and path.name in candidate_names:
             return {"ok": True, "log": full_log, "binary_path": str(path)}
 
-    return {"ok": True, "log": full_log, "binary_path": None}
+    return {"ok": False, "log": full_log, "binary_path": None}

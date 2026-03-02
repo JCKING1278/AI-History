@@ -224,6 +224,6 @@ with gr.Blocks() as demo:
     )
 
 
-if __name__ == "__main__":
+if __name__ == "__main\`:
     port = int(os.getenv("PORT", "7860"))
     demo.launch(server_port=port)

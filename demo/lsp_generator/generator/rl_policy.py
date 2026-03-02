@@ -4,7 +4,7 @@ import time
 from pathlib import Path
 
 
-DEFAULT_STRATEGIES = ["frequency", "alpha", "balanced"]
+DEFAULT_STRATEGIES = ["frequency", "alpha", "capricorn"]
 
 
 def _initial_state(strategies: list[str]) -> dict:

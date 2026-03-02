@@ -9,9 +9,9 @@
 
 using json = nlohmann::json;
 
-static const std::string kServerName = "__SERVER_NAME__";
-static const std::string kTargetExtension = "__EXTENSION__";
-static const std::string kStrategy = "__STRATEGY__";
+static const std::string kServerName = "__SERVER_NAME\`;
+static const std::string kTargetExtension = "__EXTENSION\`;
+static const std::string kStrategy = "__STRATEGY\`;
 static const std::string kRagContext = R"RAG(__RAG_CONTEXT__)RAG";
 static const std::vector<std::string> kCompletionWords = __COMPLETION_JSON__;
 
