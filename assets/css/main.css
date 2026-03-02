@@ -692,6 +692,10 @@ footer a:hover {
   color: #666666;
 }
 
+.footer-bottom p::after {
+  content: " • Built with love in Palo Alto";
+}
+
 /* Chat Widget */
 .chat-widget {
   position: fixed;

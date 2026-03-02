@@ -135,4 +135,10 @@ MIT License - Feel free to use and modify for your own projects.
 
 ---
 
+<<<<<<< Current (Your changes)
 Built with 🤖 and Mixtral via OpenRouter
+ 
+Built with love in Palo Alto.
+=======
+Built with 🤖 and Mixtral via OpenRouter — with love in Palo Alto.
+>>>>>>> Incoming (Background Agent changes)

@@ -798,6 +798,11 @@ footer {
   border-top: 1px solid var(--border-subtle);
 }
 
+.footer-copy::after {
+  content: " • Built with love in Palo Alto";
+  display: inline;
+}
+
 /* ============================================
    UTILITIES
    ============================================ */
