@@ -79,6 +79,19 @@ jobs:
           echo "Public key fingerprint:"
           ssh-keygen -l -f ~/.ssh/tunnel_key.pub
 
+      - name: Verify localhost SSH key auth
+        run: |
+          set -euo pipefail
+          echo "=== Verifying key-based SSH auth to localhost ==="
+          ssh \
+            -i ~/.ssh/tunnel_key \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            -o BatchMode=yes \
+            -o ConnectTimeout=15 \
+            "$(whoami)@localhost" "echo ssh-key-auth-ok"
+
       - name: Setup SSH Tunnel (Port 8443 → 8080)
         run: |
           echo "=== Starting SSH Tunnel ==="
