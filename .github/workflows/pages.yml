@@ -9,15 +9,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-    steps:
-      - uses: actions/checkout@v4
+  contents: write
+  id-token: write
+  concurrency:
+        group: ${{ github.workflow }}-${{ github.ref }}
+        steps:
+       - uses: actions/checkout@v4
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
