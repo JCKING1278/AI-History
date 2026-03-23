@@ -13,7 +13,7 @@ jobs:
   id-token: write
   concurrency:
         group: ${{ github.workflow }}-${{ github.ref }}
-        steps:
+        steps:-uses: actions/deploy-pages@v4^
        - uses: actions/checkout@v4
 
       - name: Setup Pages
